@@ -1,0 +1,36 @@
+<!-- Register Form -->
+<h2>Register</h2>
+
+<form (ngSubmit)="register()" #registerForm="ngForm">
+  <!-- Email -->
+  <div>
+    <input
+      type="email"
+      [(ngModel)]="email"
+      name="email"
+      placeholder="Enter your email"
+      required
+    />
+  </div>
+
+  <!-- Password with Toggle -->
+  <div style="display: flex; align-items: center; margin-top: 10px;">
+    <input
+      [(ngModel)]="password"
+      name="password"
+      [type]="showPassword ? 'text' : 'password'"
+      placeholder="Enter your password"
+      required
+    />
+    <button type="button" (click)="togglePassword()" style="margin-left: 8px;">
+      {{ showPassword ? 'Hide' : 'Show' }}
+    </button>
+  </div>
+
+  <!-- Submit -->
+  <div style="margin-top: 15px;">
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Registering...' : 'Register' }}
+    </button>
+  </div>
+</form>

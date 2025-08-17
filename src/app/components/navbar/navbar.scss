@@ -1,0 +1,36 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #222;
+  padding: 12px 20px;
+
+  a {
+    color: #ddd;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #fff;
+    }
+
+    &.active-link {
+      color: #ffcc00;
+      border-bottom: 2px solid #ffcc00;
+    }
+  }
+
+  .user-email {
+    color: #aaa;
+    margin-right: 15px;
+    font-style: italic;
+  }
+
+  .left-links,
+  .right-links {
+    display: flex;
+    align-items: center;
+  }
+}

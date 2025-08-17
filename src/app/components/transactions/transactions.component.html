@@ -1,0 +1,99 @@
+<h2>Transactions</h2>
+
+<div *ngIf="loading">Loading…</div>
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<!-- Export buttons -->
+<div class="btn-row">
+  <button (click)="exportCsv('all')">Export CSV (All)</button>
+  <button (click)="exportCsv('income')">Export CSV (Income)</button>
+  <button (click)="exportCsv('expense')">Export CSV (Expense)</button>
+</div>
+
+<div class="section-title">Income</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Amount</th><th>Category</th><th>Date</th><th>Note</th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of incomes">
+      <td>{{ t.amount | currency }}</td>
+      <td>{{ t.category }}</td>
+      <td>{{ t.date | date:'MMM d, y' }}</td>
+      <td>{{ t.note }}</td>
+      <td class="table-actions">
+        <button (click)="openEdit(t)">Edit</button>
+        <button (click)="delete(t.id)">Delete</button>
+      </td>
+    </tr>
+    <tr *ngIf="incomes.length === 0"><td colspan="5">No income entries.</td></tr>
+  </tbody>
+</table>
+
+<div class="section-title">Expenses</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Amount</th><th>Category</th><th>Date</th><th>Note</th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of expenses">
+      <td>{{ t.amount | currency }}</td>
+      <td>{{ t.category }}</td>
+      <td>{{ t.date | date:'MMM d, y' }}</td>
+      <td>{{ t.note }}</td>
+      <td class="table-actions">
+        <button (click)="openEdit(t)">Edit</button>
+        <button (click)="delete(t.id)">Delete</button>
+      </td>
+    </tr>
+    <tr *ngIf="expenses.length === 0"><td colspan="5">No expense entries.</td></tr>
+  </tbody>
+</table>
+
+<!-- Edit Modal -->
+<div *ngIf="editOpen" class="modal-backdrop" (click)="closeEdit()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h3>Edit Transaction</h3>
+    <form (ngSubmit)="saveEdit()" #editForm="ngForm">
+      <div class="grid">
+        <div>
+          <label>Type</label>
+          <select [(ngModel)]="editing!.type" name="type" required>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+        <div>
+          <label>Amount</label>
+          <input type="number" min="0.01" step="0.01" [(ngModel)]="editing!.amount" name="amount" required />
+        </div>
+        <div>
+          <label>Category</label>
+          <select [(ngModel)]="editing!.category" name="category" required>
+            <option value="Food">Food</option>
+            <option value="Rent">Rent</option>
+            <option value="Transport">Transport</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label>Date</label>
+          <input type="date" [(ngModel)]="editing!.date" name="date" required />
+        </div>
+        <div class="span-2">
+          <label>Note</label>
+          <input type="text" maxlength="80" [(ngModel)]="editing!.note" name="note" required />
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" (click)="closeEdit()">Cancel</button>
+        <button type="submit" [disabled]="!editForm.form.valid">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

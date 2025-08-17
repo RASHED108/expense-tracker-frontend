@@ -1,0 +1,68 @@
+<h2>Welcome, {{ userEmail }}!</h2>
+
+<!-- Budget alert (monthly) -->
+<div *ngIf="showAlert" class="alert">
+  ⚠️ Alert: Monthly spending ({{ monthlySpending | currency }})
+  has exceeded your budget of {{ monthlyLimit | currency }}!
+</div>
+
+<!-- Budget editor -->
+<div class="card budget-editor">
+  <div class="field">
+    <label>Monthly budget</label>
+    <input type="number" min="0.01" step="0.01" [(ngModel)]="budgetLimitInput" />
+  </div>
+  <div class="field">
+    <label>Alert threshold (%)</label>
+    <input type="number" min="1" max="100" step="1" [(ngModel)]="budgetThresholdInput" />
+  </div>
+  <button (click)="saveBudget()" [disabled]="savingBudget">
+    {{ savingBudget ? 'Saving...' : 'Save Budget' }}
+  </button>
+</div>
+
+<!-- Top cards (ALL-TIME) -->
+<div class="grid-3 cards">
+  <div class="card"><strong>Total Transactions:</strong> {{ totalTransactions }}</div>
+  <div class="card"><strong>Total Amount:</strong> {{ totalAmount | currency }}</div>
+  <div class="card"><strong>Total Income:</strong> {{ totalIncome | currency }}</div>
+</div>
+
+<div class="card"><strong>Total Expenses:</strong> {{ totalExpenses | currency }}</div>
+
+<!-- Optional stat blocks (ALL-TIME) -->
+<div class="grid-2 cards">
+  <div class="card">
+    <h3>Income Statistics</h3>
+    <div>Highest Income: {{ getHighestIncome() | currency }}</div>
+    <div>Lowest Income: {{ getLowestIncome() | currency }}</div>
+    <div>Average Income: {{ getAverageIncome() | currency }}</div>
+  </div>
+  <div class="card">
+    <h3>Expense Statistics</h3>
+    <div>Highest Expense: {{ getHighestExpense() | currency }}</div>
+    <div>Lowest Expense: {{ getLowestExpense() | currency }}</div>
+    <div>Average Expense: {{ getAverageExpense() | currency }}</div>
+  </div>
+</div>
+
+<!-- Scope toggle for charts -->
+<div class="card">
+  <label>
+    Chart scope:
+    <select [(ngModel)]="chartScope" (ngModelChange)="onScopeChange()">
+      <option value="all">All time</option>
+      <option value="month">This month</option>
+    </select>
+  </label>
+</div>
+
+<h3>Spending by Category ({{ chartScope === 'all' ? 'All Time' : 'This Month' }})</h3>
+<div class="chart-box">
+  <canvas baseChart [type]="barChartType" [data]="barChartData" [options]="barChartOptions"></canvas>
+</div>
+
+<h3>Income vs Expenses ({{ chartScope === 'all' ? 'All Time' : 'This Month' }})</h3>
+<div class="chart-box pie">
+  <canvas baseChart [type]="pieChartType" [data]="pieChartData" [options]="pieChartOptions"></canvas>
+</div>

@@ -1,0 +1,117 @@
+/* Filters + Summary styling */
+.filters,
+.summary {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Summary section with totals */
+.summary {
+  background: #f8f9fa;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+
+  th,
+  td {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+
+  th {
+    background: #f2f2f2;
+  }
+}
+
+/* Section headings */
+.section-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 1rem 0 0.5rem 0;
+}
+
+/* General button styles */
+button {
+  padding: 0.25rem 0.6rem;
+  background: crimson;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: darkred;
+  }
+
+  &.active {
+    background: #333;
+    font-weight: bold;
+  }
+}
+
+/* Export buttons (different style) */
+.export-btn {
+  background: #007bff;
+  &:hover {
+    background: #0056b3;
+  }
+}
+
+/* Income delete button (blue) */
+.delete-income {
+  background: #17a2b8;
+  &:hover {
+    background: #117a8b;
+  }
+}
+
+/* Expense delete button (red) */
+.delete-expense {
+  background: crimson;
+  &:hover {
+    background: darkred;
+  }
+}
+
+/* Pagination styling */
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  background: #eee;
+  color: #333;
+  border: 1px solid #ccc;
+
+  &.active {
+    background: crimson;
+    color: white;
+  }
+
+  &:hover:not(.active) {
+    background: #ddd;
+  }
+}
+
+/* Page size dropdown */
+select {
+  padding: 0.25rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}

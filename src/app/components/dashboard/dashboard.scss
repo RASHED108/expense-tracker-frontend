@@ -1,0 +1,52 @@
+.cards { gap: 16px; margin-bottom: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); }
+
+.card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.alert {
+  background: #ffe3e3;
+  border: 1px solid #f5b5b5;
+  color: #b00020;
+  padding: 12px;
+  border-radius: 6px;
+  margin: 12px 0;
+  text-align: center;
+}
+
+.budget-editor {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+.chart-box {
+  position: relative;
+  height: 340px;
+  margin-bottom: 16px;
+
+  &.pie {
+    height: 260px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+}

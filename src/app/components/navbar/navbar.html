@@ -1,0 +1,19 @@
+<nav class="navbar">
+  <div class="left-links">
+    <a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
+    <a routerLink="/transactions" routerLinkActive="active-link">Transactions</a>
+  </div>
+
+  <div class="right-links">
+    <ng-container *ngIf="isLoggedIn$ | async; else loggedOut">
+      <a routerLink="/add-transaction" routerLinkActive="active-link">Add Transaction</a>
+      <span class="user-email">Welcome, {{ userEmail }}</span>
+      <a (click)="logout()">Logout</a>
+    </ng-container>
+
+    <ng-template #loggedOut>
+      <a routerLink="/login" routerLinkActive="active-link">Login</a>
+      <a routerLink="/register" routerLinkActive="active-link">Register</a>
+    </ng-template>
+  </div>
+</nav>
