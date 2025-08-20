@@ -16,7 +16,7 @@ export class AddTransactionComponent {
   model: Tx = {
     type: 'expense',                               // default
     amount: 0,
-    category: 'Food',                              // ✅ safe default
+    category: 'Food',                              // safe default
     date: new Date().toISOString().slice(0, 10),   // YYYY-MM-DD
     note: ''
   };
@@ -27,7 +27,7 @@ export class AddTransactionComponent {
   constructor(private api: ApiService, private router: Router) {}
 
   saveTransaction() {
-    // ✅ safer validation
+    // safer validation
     if (
       !this.model.type ||                       // type missing
       !this.model.category?.trim() ||           // category empty/blank

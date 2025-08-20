@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, catchError, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-const BASE = environment.API_URL; // ← dev uses 127.0.0.1, prod uses your Azure URL
+const BASE = environment.API_URL; // ← dev uses 127.0.0.1, prod uses  Azure URL
 
 export interface Tx {
   id?: string;

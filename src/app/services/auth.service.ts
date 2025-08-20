@@ -17,7 +17,7 @@ export class AuthService {
     localStorage.setItem(this.tokenKey, token);
     localStorage.setItem(this.emailKey, email);
 
-    // ✅ Add this line:
+    
     localStorage.setItem('isLoggedIn', 'true');
 
     this.loggedIn$.next(true);
@@ -26,7 +26,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.emailKey);
-    localStorage.removeItem('isLoggedIn'); // ✅ clear flag on logout
+    localStorage.removeItem('isLoggedIn'); // clear flag on logout
     this.loggedIn$.next(false);
   }
 
