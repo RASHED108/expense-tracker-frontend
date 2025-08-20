@@ -1,34 +1,68 @@
+// src/app/components/login/login.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html'
 })
 export class LoginComponent {
-  email = ''; password = ''; showPassword = false; loading = false;
+  email: string = '';
+  password: string = '';
+  showPassword = false;
+  loading = false;
 
-  constructor(private router: Router, private api: ApiService, private auth: AuthService) {}
+  constructor(
+    private router: Router,
+    private api: ApiService,
+    private auth: AuthService
+  ) {}
 
-  togglePassword(){ this.showPassword = !this.showPassword; }
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
 
-  login() {
-    if (!this.email || !this.password) { alert('Enter email & password'); return; }
+  login(): void {
+    const email = this.email.trim();
+    const password = this.password;
+
+    if (!email || !password) {
+      alert('Enter email & password');
+      return;
+    }
+
     this.loading = true;
-    this.api.login({ email: this.email, password: this.password }).subscribe({
-      next: (res) => {
-        // backend must return { access_token, email }
-        this.auth.loginSuccess(res.access_token, res.email || this.email);
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => alert(err?.error?.error || 'Login failed'),
-      complete: () => this.loading = false
-    });
+
+    this.api
+      .login({ email, password })
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe({
+        next: (res) => {
+          // backend may return { access_token } or { token }
+          const token = res.access_token ?? res.token ?? '';
+          if (!token) {
+            alert(res.message ?? 'Login failed');
+            return;
+          }
+
+          // Prefer server-provided email if present
+          this.auth.loginSuccess(token, res.email ?? email);
+          this.router.navigateByUrl('/dashboard');
+        },
+        error: (err) => {
+          const msg =
+            err?.error?.message ??
+            err?.error?.error ??
+            'Login failed';
+          alert(msg);
+        }
+      });
   }
 }

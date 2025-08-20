@@ -1,3 +1,4 @@
+// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -12,21 +13,18 @@ export class AuthService {
   get token(): string | null { return localStorage.getItem(this.tokenKey); }
   get email(): string | null { return localStorage.getItem(this.emailKey); }
 
-  // call after /auth/login succeeds
-  loginSuccess(token: string, email: string) {
+  // Accept optional email to avoid string | undefined type errors
+  loginSuccess(token: string, email?: string) {
     localStorage.setItem(this.tokenKey, token);
-    localStorage.setItem(this.emailKey, email);
-
-    
+    if (email) localStorage.setItem(this.emailKey, email);
     localStorage.setItem('isLoggedIn', 'true');
-
     this.loggedIn$.next(true);
   }
 
   logout() {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.emailKey);
-    localStorage.removeItem('isLoggedIn'); // clear flag on logout
+    localStorage.removeItem('isLoggedIn');
     this.loggedIn$.next(false);
   }
 
